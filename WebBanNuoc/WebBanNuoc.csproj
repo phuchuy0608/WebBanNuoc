@@ -1822,6 +1822,8 @@
     <Content Include="Views\Account\TestLogin.cshtml" />
     <Content Include="Views\AccountTest\TestLogin.cshtml" />
     <Content Include="Views\AccountTest\Confirm.cshtml" />
+    <Content Include="Views\Home\Checkout.cshtml" />
+    <Content Include="Views\Home\CheckoutDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
