@@ -31,7 +31,7 @@
                 <button class="btn btn-info form-control" type="submit" onclick="Login()"><i class="glyphicon glyphicon-log-in"></i> Login</button>
             </div>
             <div class="form-group">
-                <a style="float:left">Forget Password ? </a><a style="float:right;cursor:pointer" onclick="SignUp()"> Sign Up</a>
+                <a style="float:left" href="@Url.Action("ForgotPassword", "AccountTest")">Forget Password ? </a><a style="float:right;cursor:pointer" onclick="SignUp()"> Sign Up</a>
             </div>
         </div>
     </div>
@@ -72,7 +72,7 @@
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                            <input class="form-control" type="text" name="PhoneNumber" id="phone" placeholder="PhoneNumber"/>
+                            <input class="form-control" type="text" name="PhoneNumber" id="phone" placeholder="PhoneNumber" />
                         </div>
                     </div>
 
@@ -123,7 +123,6 @@
         $("#message1").hide();
         $("#message2").hide();
     }
-
     function SaveForm() {
         var email = $("#Email").val();
         var phone = $("#phone").val();
@@ -131,7 +130,7 @@
         var us = $("#user").val();
         var pwd = $("#pwd").val();
         var ad = $("#add").val();
-        if (name == "" || pwd == "" || email == "" || phone == "" || us == "" || ad=="") {
+        if (name == "" || pwd == "" || email == "" || phone == "" || us == "" || ad == "") {
             $("#message1").hide();
             $("#message2").show();
             return false;
@@ -142,17 +141,14 @@
             data: data,
             url: "/AccountTest/SaveData",
             success: function (result) {
-
                 $("#message1").show();
                 $("#message2").hide();
                 $("#Registration")[0].reset();
             }
         });
     }
-
     //Login System
     $("#msg").hide();
-
     var Login = function () {
         var data = $("#loginForm").serialize();
         $.ajax({

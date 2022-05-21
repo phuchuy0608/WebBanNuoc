@@ -9,6 +9,8 @@ using System.Web.Hosting;
 using System.Web.Mvc;
 using WebBanNuoc.DAL;
 using System.Data.Entity.Validation;
+using System.Net;
+using System.Web.Helpers;
 
 namespace WebBanNuoc.Controllers
 {
@@ -21,6 +23,24 @@ namespace WebBanNuoc.Controllers
         {
             return View();
         }
+
+        
+
+        //public JsonResult CheckUsernameAvailability(string userdata)
+        //{
+        //    System.Threading.Thread.Sleep(200);
+        //    var SeachData = db.Tbl_Members.Where(x => x.UserName == userdata).SingleOrDefault();
+        //    if (SeachData != null)
+        //    {
+        //        return Json(1);
+        //    }
+        //    else
+        //    {
+        //        return Json(0);
+        //    }
+
+        //}
+
         public JsonResult SaveData(Tbl_Members model)
         {
             try
@@ -54,6 +74,8 @@ namespace WebBanNuoc.Controllers
             ViewBag.regID = regId;
             return View();
         }
+
+        [HttpGet]
         public JsonResult RegisterConfirm(int regId)
         {
             Tbl_Members Data = db.Tbl_Members.Where(x => x.MemberId == regId).FirstOrDefault();
@@ -130,6 +152,7 @@ namespace WebBanNuoc.Controllers
                     Session["MemberId"] = DataItem.MemberId.ToString();
                     Session["UserName"] = DataItem.UserName.ToString();
                 Session["Name"] = DataItem.Name.ToString();
+                Session["Account"] = DataItem;
                 result = "Success";
                 }
             
@@ -154,6 +177,142 @@ namespace WebBanNuoc.Controllers
             Session.Clear();
             Session.Abandon();
             return RedirectToAction("TestLogin");
+        }
+
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+        [NonAction]
+        public void SendVerificationLinkEmail(string emailID, string activationCode, string emailFor = "VerifyAccount")
+        {
+            var verifyUrl = "/AccountTest/" + emailFor + "/" + activationCode;
+            var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
+
+            var fromEmail = new MailAddress("hhtt.tuvan@gmail.com", "HTTT Awesome");
+            var toEmail = new MailAddress(emailID);
+            var fromEmailPassword = "H123456@"; // Replace with actual password
+
+            string subject = "";
+            string body = "";
+            if (emailFor == "VerifyAccount")
+            {
+                subject = "Your account is successfully created!";
+                body = "<br/><br/>We are excited to tell you that your Dotnet Awesome account is" +
+                    " successfully created. Please click on the below link to verify your account" +
+                    " <br/><br/><a href='" + link + "'>" + link + "</a> ";
+            }
+            else if (emailFor == "ResetPassword")
+            {
+                subject = "Reset Password";
+                body = "Hi,<br/><br/>We got request for reset your account password. Please click on the below link to reset your password" +
+                    "<br/><br/><a href=" + link + ">Reset Password</a>";
+            }
+
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromEmail.Address, fromEmailPassword)
+            };
+
+            using (var message = new MailMessage(fromEmail, toEmail)
+            {
+                Subject = subject,
+                Body = body,
+                IsBodyHtml = true
+            })
+                smtp.Send(message);
+        }
+        [HttpPost]
+        public ActionResult ForgotPassword(string EmailID)
+        {
+            //Verify Email ID
+            //Generate Reset password link 
+            //Send Email 
+            string message = "";
+            bool status = false;
+
+            using (DrinksStoreEntities1 dc = new DrinksStoreEntities1())
+            {
+                var account = dc.Tbl_Members.Where(a => a.Email == EmailID).FirstOrDefault();
+                if (account != null)
+                {
+                    //Send email for reset password
+                    string resetCode = Guid.NewGuid().ToString();
+                    SendVerificationLinkEmail(account.Email, resetCode, "ResetPassword");
+                    account.ResetPasswordCode = resetCode;
+                    //This line I have added here to avoid confirm password not match issue , as we had added a confirm password property 
+                    //in our model class in part 1
+                    dc.Configuration.ValidateOnSaveEnabled = false;
+                    dc.SaveChanges();
+                    message = "Reset password link has been sent to your email.";
+                }
+                else
+                {
+                    message = "Account not found";
+                }
+            }
+            ViewBag.Message = message;
+            return View();
+        }
+        public ActionResult ResetPassword(string id)
+        {
+            //Verify the reset password link
+            //Find account associated with this link
+            //redirect to reset password page
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return HttpNotFound();
+            }
+
+            using (DrinksStoreEntities1 dc = new DrinksStoreEntities1())
+            {
+                var user = dc.Tbl_Members.Where(a => a.ResetPasswordCode == id).FirstOrDefault();
+                if (user != null)
+                {
+                    ResetPasswordModel model = new ResetPasswordModel();
+                    model.ResetCode = id;
+                    return View(model);
+                }
+                else
+                {
+                    return HttpNotFound();
+                }
+            }
+        }
+
+       
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetPassword(ResetPasswordModel model)
+        {
+            var message = "";
+            if (ModelState.IsValid)
+            {
+                using (DrinksStoreEntities1 dc = new DrinksStoreEntities1())
+                {
+                    var user = dc.Tbl_Members.Where(a => a.ResetPasswordCode == model.ResetCode).FirstOrDefault();
+                    if (user != null)
+                    {
+                        user.Password = model.NewPassword;
+                        user.ResetPasswordCode = "";
+                        dc.Configuration.ValidateOnSaveEnabled = false;
+                        dc.SaveChanges();
+                        message = "New password updated successfully";
+                    }
+                }
+            }
+            else
+            {
+                message = "Something invalid";
+            }
+            ViewBag.Message = message;
+            return View(model);
         }
     }
 }

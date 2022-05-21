@@ -88,7 +88,7 @@
                                 {
                                     <li>
 
-                                        <a href="@Url.Action("RemoveFromCart", "Home", new { productId=item.Product.ProductId})">
+                                        <a href="@Url.Action("RemoveFromCart", "Home", new { @productId=item.Product.ProductId})">
                                             @item.Product.ProductName (@item.Quantity)
                                             <i class="fa fa-times fa-pull-right"></i>
                                         </a>

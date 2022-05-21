@@ -10,17 +10,13 @@
 namespace WebBanNuoc.DAL
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Tbl_Cart
+    public partial class sp_helpdiagrams_Result
     {
-        public int CartId { get; set; }
-        public Nullable<int> ProductId { get; set; }
-        public Nullable<int> MemberId { get; set; }
-        public Nullable<int> CartStatusId { get; set; }
-    
-        public virtual Tbl_Product Tbl_Product { get; set; }
-        public virtual Tbl_CartStatus Tbl_CartStatus { get; set; }
-        public virtual Tbl_Members Tbl_Members { get; set; }
+        public string Database { get; set; }
+        public string Name { get; set; }
+        public int ID { get; set; }
+        public string Owner { get; set; }
+        public int OwnerID { get; set; }
     }
 }

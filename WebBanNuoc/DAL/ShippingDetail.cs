@@ -12,19 +12,14 @@ namespace WebBanNuoc.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Tbl_ShippingDetails
+    public partial class ShippingDetail
     {
         public int ShippingDetailId { get; set; }
-        public Nullable<int> MemberId { get; set; }
-        public string Adress { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string Country { get; set; }
-        public string ZipCode { get; set; }
-        public Nullable<int> OrderId { get; set; }
-        public Nullable<decimal> AmountPaid { get; set; }
-        public string PaymentType { get; set; }
+        public int ProductId { get; set; }
+        public Nullable<int> Quantity { get; set; }
+        public Nullable<decimal> Price { get; set; }
     
-        public virtual Tbl_Members Tbl_Members { get; set; }
+        public virtual Shipping Shipping { get; set; }
+        public virtual Tbl_Product Tbl_Product { get; set; }
     }
 }

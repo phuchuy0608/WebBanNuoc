@@ -1,0 +1,101 @@
+﻿@model IEnumerable<WebBanNuoc.Models.Home.Item>
+
+@{
+    ViewBag.Title = "Payment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Payment</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Image</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Line Total</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @using WebBanNuoc.Models.Home;
+        @{
+            int Total = 0;
+        }
+        @foreach (Item item in (List<Item>)Session["cart"])
+        {
+            int lineTotal = Convert.ToInt32(item.Quantity * item.Product.Price);
+            Total = Convert.ToInt32(@Total + lineTotal);
+
+
+            Session["SesTotal"] = Total;
+
+            <tr>
+                <td>@item.Product.ProductName</td>
+                <td width="200"><img src="~/Content/images/@item.Product.ProductImage" width="150" /></td>
+                <td>@item.Product.Price</td>
+                <td>@item.Quantity</td>
+                <td>@lineTotal</td>
+            </tr>
+        }
+
+        <tr>
+            <td colspan="5" class="text-right"><b>Total: @Total</b></td>
+
+        </tr>
+    </tbody>
+
+
+    
+    <tr>
+    <tr style="font-weight:bold; text-align:right">
+        <td colspan="6">@Html.ActionLink("Back to cart", "CheckoutDetails", "Home")</td>
+    </tr>
+
+</table>
+
+@using WebBanNuoc.DAL
+<h2 style="text-align:center">Thông tin đặt hàng</h2>
+@{
+    Tbl_Members kh = (Tbl_Members)Session["Account"];
+}
+
+<table align="center">
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <tr style="height:40px">
+            <td>Name:</td>
+            <td style="font-weight:bold">@kh.Name</td>
+        </tr>
+        <tr style="height:40px">
+            <td>Email:</td>
+            <td style="font-weight:bold">@kh.Email</td>
+        </tr>
+        <tr style="height:40px">
+            <td>Address:</td>
+            <td style="font-weight:bold">@kh.Address</td>
+        </tr>
+        <tr style="height:40px">
+            <td>Phone Number:</td>
+            <td style="font-weight:bold">@kh.PhoneNumber</td>
+        </tr>
+        <tr style="height:40px">
+            <td>Order Date:</td>
+            <td style="font-weight:bold">@DateTime.Now.ToShortDateString()</td>
+        </tr>
+        <tr style="height:40px">
+            <td>Delivery Date</td>
+            <td style="font-weight:bold">
+                <input type="date" name="NgayGiao" />
+            </td>
+        </tr>
+        <tr style="height:40px">
+            <td></td>
+            <td style="font-weight:bold">
+                <input type="submit" value="Confirm" class="btn btn-success" />
+            </td>
+        </tr>
+    }
+</table>

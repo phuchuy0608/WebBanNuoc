@@ -5,19 +5,26 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="be52ccaf78124aa7b260c8d1d168e368" Name="Diagram1">
-        <EntityTypeShape EntityType="DrinksStoreModel.Tbl_Cart" Width="1.5" PointX="5.25" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DrinksStoreModel.Tbl_CartStatus" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DrinksStoreModel.Tbl_Category" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DrinksStoreModel.Tbl_Roles" Width="1.5" PointX="7.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DrinksStoreModel.Tbl_ShippingDetails" Width="1.5" PointX="3" PointY="6" IsExpanded="true" />
-        <EntityTypeShape EntityType="DrinksStoreModel.Tbl_SlideImage" Width="1.5" PointX="5.75" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DrinksStoreModel.sysdiagram" Width="1.5" PointX="8.375" PointY="6.75" />
-        <EntityTypeShape EntityType="DrinksStoreModel.Tbl_Product" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="DrinksStoreModel.Shipping" Width="1.5" PointX="2.75" PointY="8.125" />
+        <EntityTypeShape EntityType="DrinksStoreModel.ShippingDetail" Width="1.5" PointX="5" PointY="0.5" />
+        <EntityTypeShape EntityType="DrinksStoreModel.sysdiagram" Width="1.5" PointX="7.5" PointY="1.625" />
+        <EntityTypeShape EntityType="DrinksStoreModel.Tbl_Cart" Width="1.5" PointX="5" PointY="3.375" />
+        <EntityTypeShape EntityType="DrinksStoreModel.Tbl_CartStatus" Width="1.5" PointX="9.25" PointY="9" />
+        <EntityTypeShape EntityType="DrinksStoreModel.Tbl_Category" Width="1.5" PointX="0.5" PointY="3.625" />
+        <EntityTypeShape EntityType="DrinksStoreModel.Tbl_MemberRole" Width="1.5" PointX="5.75" PointY="8.5" />
+        <EntityTypeShape EntityType="DrinksStoreModel.Tbl_Members" Width="1.5" PointX="0.5" PointY="7.875" />
+        <EntityTypeShape EntityType="DrinksStoreModel.Tbl_Product" Width="1.5" PointX="2.75" PointY="2.625" />
+        <EntityTypeShape EntityType="DrinksStoreModel.Tbl_Roles" Width="1.5" PointX="3.5" PointY="14.625" />
+        <EntityTypeShape EntityType="DrinksStoreModel.Tbl_SlideImage" Width="1.5" PointX="7.5" PointY="4.625" />
+        <AssociationConnector Association="DrinksStoreModel.FK_Shipping_Tbl_Members" />
+        <AssociationConnector Association="DrinksStoreModel.FK_ShippingDetail_Shipping" />
+        <AssociationConnector Association="DrinksStoreModel.FK_ShippingDetail_Tbl_Product" />
         <AssociationConnector Association="DrinksStoreModel.FK__Tbl_Cart__Produc__38996AB5" />
+        <AssociationConnector Association="DrinksStoreModel.FK_Tbl_Cart_Tbl_CartStatus" />
+        <AssociationConnector Association="DrinksStoreModel.FK_Tbl_Cart_Tbl_Members" />
         <AssociationConnector Association="DrinksStoreModel.FK__Tbl_Produ__Categ__398D8EEE" />
-        <EntityTypeShape EntityType="DrinksStoreModel.Tbl_MemberRole" Width="1.5" PointX="7.375" PointY="0.75" />
-        <EntityTypeShape EntityType="DrinksStoreModel.Tbl_Members" Width="1.5" PointX="0.75" PointY="6.25" />
-        <AssociationConnector Association="DrinksStoreModel.FK_Tbl_ShippingDetails_Tbl_Members" />
+        <AssociationConnector Association="DrinksStoreModel.FK_Tbl_MemberRole_Tbl_Members" />
+        <AssociationConnector Association="DrinksStoreModel.FK_Tbl_MemberRole_Tbl_Roles" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

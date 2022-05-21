@@ -12,18 +12,23 @@ namespace WebBanNuoc.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Tbl_Roles
+    public partial class Shipping
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Tbl_Roles()
+        public Shipping()
         {
-            this.Tbl_MemberRole = new HashSet<Tbl_MemberRole>();
+            this.ShippingDetails = new HashSet<ShippingDetail>();
         }
     
-        public int RoleId { get; set; }
-        public string RoleName { get; set; }
+        public int ShippingDetailId { get; set; }
+        public Nullable<bool> Payment { get; set; }
+        public Nullable<bool> Ship { get; set; }
+        public Nullable<System.DateTime> OrderDate { get; set; }
+        public Nullable<System.DateTime> DeliveryDate { get; set; }
+        public Nullable<int> MemberId { get; set; }
     
+        public virtual Tbl_Members Tbl_Members { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tbl_MemberRole> Tbl_MemberRole { get; set; }
+        public virtual ICollection<ShippingDetail> ShippingDetails { get; set; }
     }
 }

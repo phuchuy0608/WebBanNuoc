@@ -14,7 +14,16 @@ namespace WebBanNuoc.DAL
     
     public partial class Tbl_CartStatus
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Tbl_CartStatus()
+        {
+            this.Tbl_Cart = new HashSet<Tbl_Cart>();
+        }
+    
         public int CartStatusId { get; set; }
         public string CartStatus { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Tbl_Cart> Tbl_Cart { get; set; }
     }
 }
