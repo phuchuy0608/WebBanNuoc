@@ -39,14 +39,14 @@ else
                 <tr>
                     <td>@item.Product.ProductName</td>
                     <td width="200"><img src="~/Content/images/@item.Product.ProductImage" width="150" /></td>
-                    <td>@item.Product.Price</td>
+                    <td>@String.Format("{0:0,0}", item.Product.Price) VNĐ</td>
                     <td>@item.Quantity</td>
-                    <td>@lineTotal</td>
+                    <td>@String.Format("{0:0,0}", lineTotal) VNĐ</td>
                 </tr>
             }
 
             <tr>
-                <td colspan="5" class="text-right"><b>Total: @Total</b></td>
+                <td colspan="5" class="text-right"><b>Total: @String.Format("{0:0,0}", Total) VNĐ</b></td>
 
             </tr>
         </tbody>

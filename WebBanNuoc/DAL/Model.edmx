@@ -61,14 +61,6 @@
           <Property Name="IsActive" Type="bit" />
           <Property Name="IsDelete" Type="bit" />
         </EntityType>
-        <EntityType Name="Tbl_MemberRole">
-          <Key>
-            <PropertyRef Name="MemberRoleID" />
-          </Key>
-          <Property Name="MemberRoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MemberId" Type="int" />
-          <Property Name="RoleId" Type="int" />
-        </EntityType>
         <EntityType Name="Tbl_Members">
           <Key>
             <PropertyRef Name="MemberId" />
@@ -82,6 +74,7 @@
           <Property Name="Address" Type="nvarchar" MaxLength="100" />
           <Property Name="isValid" Type="bit" />
           <Property Name="ResetPasswordCode" Type="nvarchar" MaxLength="100" />
+          <Property Name="RoleId" Type="int" />
         </EntityType>
         <EntityType Name="Tbl_Product">
           <Key>
@@ -100,11 +93,11 @@
           <Property Name="Quantity" Type="int" />
           <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
-        <EntityType Name="Tbl_Roles">
+        <EntityType Name="Tbl_Role">
           <Key>
             <PropertyRef Name="RoleId" />
           </Key>
-          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
           <Property Name="RoleName" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="Tbl_SlideImage">
@@ -199,26 +192,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Tbl_MemberRole_Tbl_Members">
-          <End Role="Tbl_Members" Type="Self.Tbl_Members" Multiplicity="0..1" />
-          <End Role="Tbl_MemberRole" Type="Self.Tbl_MemberRole" Multiplicity="*" />
+        <Association Name="FK_Tbl_Members_Tbl_Role1">
+          <End Role="Tbl_Role" Type="Self.Tbl_Role" Multiplicity="0..1" />
+          <End Role="Tbl_Members" Type="Self.Tbl_Members" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Tbl_Members">
-              <PropertyRef Name="MemberId" />
-            </Principal>
-            <Dependent Role="Tbl_MemberRole">
-              <PropertyRef Name="MemberId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Tbl_MemberRole_Tbl_Roles">
-          <End Role="Tbl_Roles" Type="Self.Tbl_Roles" Multiplicity="0..1" />
-          <End Role="Tbl_MemberRole" Type="Self.Tbl_MemberRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tbl_Roles">
+            <Principal Role="Tbl_Role">
               <PropertyRef Name="RoleId" />
             </Principal>
-            <Dependent Role="Tbl_MemberRole">
+            <Dependent Role="Tbl_Members">
               <PropertyRef Name="RoleId" />
             </Dependent>
           </ReferentialConstraint>
@@ -264,10 +245,9 @@
           <EntitySet Name="Tbl_Cart" EntityType="Self.Tbl_Cart" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_CartStatus" EntityType="Self.Tbl_CartStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_Category" EntityType="Self.Tbl_Category" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Tbl_MemberRole" EntityType="Self.Tbl_MemberRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_Members" EntityType="Self.Tbl_Members" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_Product" EntityType="Self.Tbl_Product" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Tbl_Roles" EntityType="Self.Tbl_Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Role" EntityType="Self.Tbl_Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_SlideImage" EntityType="Self.Tbl_SlideImage" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Tbl_Cart__Produc__38996AB5" Association="Self.FK__Tbl_Cart__Produc__38996AB5">
             <End Role="Tbl_Product" EntitySet="Tbl_Product" />
@@ -297,13 +277,9 @@
             <End Role="Tbl_Members" EntitySet="Tbl_Members" />
             <End Role="Tbl_Cart" EntitySet="Tbl_Cart" />
           </AssociationSet>
-          <AssociationSet Name="FK_Tbl_MemberRole_Tbl_Members" Association="Self.FK_Tbl_MemberRole_Tbl_Members">
+          <AssociationSet Name="FK_Tbl_Members_Tbl_Role1" Association="Self.FK_Tbl_Members_Tbl_Role1">
+            <End Role="Tbl_Role" EntitySet="Tbl_Role" />
             <End Role="Tbl_Members" EntitySet="Tbl_Members" />
-            <End Role="Tbl_MemberRole" EntitySet="Tbl_MemberRole" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Tbl_MemberRole_Tbl_Roles" Association="Self.FK_Tbl_MemberRole_Tbl_Roles">
-            <End Role="Tbl_Roles" EntitySet="Tbl_Roles" />
-            <End Role="Tbl_MemberRole" EntitySet="Tbl_MemberRole" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -317,14 +293,12 @@
           <EntitySet Name="Tbl_Cart" EntityType="DrinksStoreModel.Tbl_Cart" />
           <EntitySet Name="Tbl_CartStatus" EntityType="DrinksStoreModel.Tbl_CartStatus" />
           <EntitySet Name="Tbl_Category" EntityType="DrinksStoreModel.Tbl_Category" />
-          <EntitySet Name="Tbl_MemberRole" EntityType="DrinksStoreModel.Tbl_MemberRole" />
           <EntitySet Name="Tbl_Members" EntityType="DrinksStoreModel.Tbl_Members" />
           <EntitySet Name="Tbl_Product" EntityType="DrinksStoreModel.Tbl_Product" />
-          <EntitySet Name="Tbl_Roles" EntityType="DrinksStoreModel.Tbl_Roles" />
           <EntitySet Name="Tbl_SlideImage" EntityType="DrinksStoreModel.Tbl_SlideImage" />
           <AssociationSet Name="FK_Shipping_Tbl_Members" Association="DrinksStoreModel.FK_Shipping_Tbl_Members">
-            <End Role="Tbl_Members" EntitySet="Tbl_Members" />
-            <End Role="Shipping" EntitySet="Shippings" />
+            <End EntitySet="Tbl_Members" Role="Tbl_Members" />
+            <End EntitySet="Shippings" Role="Shipping" />
           </AssociationSet>
           <AssociationSet Name="FK_ShippingDetail_Shipping" Association="DrinksStoreModel.FK_ShippingDetail_Shipping">
             <End Role="Shipping" EntitySet="Shippings" />
@@ -343,20 +317,12 @@
             <End Role="Tbl_Cart" EntitySet="Tbl_Cart" />
           </AssociationSet>
           <AssociationSet Name="FK_Tbl_Cart_Tbl_Members" Association="DrinksStoreModel.FK_Tbl_Cart_Tbl_Members">
-            <End Role="Tbl_Members" EntitySet="Tbl_Members" />
-            <End Role="Tbl_Cart" EntitySet="Tbl_Cart" />
+            <End EntitySet="Tbl_Members" Role="Tbl_Members" />
+            <End EntitySet="Tbl_Cart" Role="Tbl_Cart" />
           </AssociationSet>
           <AssociationSet Name="FK__Tbl_Produ__Categ__398D8EEE" Association="DrinksStoreModel.FK__Tbl_Produ__Categ__398D8EEE">
             <End Role="Tbl_Category" EntitySet="Tbl_Category" />
             <End Role="Tbl_Product" EntitySet="Tbl_Product" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Tbl_MemberRole_Tbl_Members" Association="DrinksStoreModel.FK_Tbl_MemberRole_Tbl_Members">
-            <End Role="Tbl_Members" EntitySet="Tbl_Members" />
-            <End Role="Tbl_MemberRole" EntitySet="Tbl_MemberRole" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Tbl_MemberRole_Tbl_Roles" Association="DrinksStoreModel.FK_Tbl_MemberRole_Tbl_Roles">
-            <End Role="Tbl_Roles" EntitySet="Tbl_Roles" />
-            <End Role="Tbl_MemberRole" EntitySet="Tbl_MemberRole" />
           </AssociationSet>
           <FunctionImport Name="GetBySearch" ReturnType="Collection(DrinksStoreModel.GetBySearch_Result)">
           <Parameter Name="search" Mode="In" Type="String" />
@@ -391,6 +357,11 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <EntitySet Name="Tbl_Role" EntityType="DrinksStoreModel.Tbl_Role" />
+          <AssociationSet Name="FK_Tbl_Members_Tbl_Role1" Association="DrinksStoreModel.FK_Tbl_Members_Tbl_Role1">
+            <End Role="Tbl_Role" EntitySet="Tbl_Role" />
+            <End Role="Tbl_Members" EntitySet="Tbl_Members" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Shipping">
           <Key>
@@ -457,32 +428,23 @@
           <Property Name="IsDelete" Type="Boolean" />
           <NavigationProperty Name="Tbl_Product" Relationship="DrinksStoreModel.FK__Tbl_Produ__Categ__398D8EEE" FromRole="Tbl_Category" ToRole="Tbl_Product" />
         </EntityType>
-        <EntityType Name="Tbl_MemberRole">
-          <Key>
-            <PropertyRef Name="MemberRoleID" />
-          </Key>
-          <Property Name="MemberRoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MemberId" Type="Int32" />
-          <Property Name="RoleId" Type="Int32" />
-          <NavigationProperty Name="Tbl_Members" Relationship="DrinksStoreModel.FK_Tbl_MemberRole_Tbl_Members" FromRole="Tbl_MemberRole" ToRole="Tbl_Members" />
-          <NavigationProperty Name="Tbl_Roles" Relationship="DrinksStoreModel.FK_Tbl_MemberRole_Tbl_Roles" FromRole="Tbl_MemberRole" ToRole="Tbl_Roles" />
-        </EntityType>
         <EntityType Name="Tbl_Members">
           <Key>
             <PropertyRef Name="MemberId" />
           </Key>
-          <Property Name="MemberId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MemberId" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="Name" MaxLength="200" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="UserName" MaxLength="50" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Password" MaxLength="20" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Email" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="PhoneNumber" MaxLength="20" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Address" MaxLength="100" FixedLength="false" Unicode="true" Type="String" />
           <Property Name="isValid" Type="Boolean" />
           <NavigationProperty Name="Shippings" Relationship="DrinksStoreModel.FK_Shipping_Tbl_Members" FromRole="Tbl_Members" ToRole="Shipping" />
           <NavigationProperty Name="Tbl_Cart" Relationship="DrinksStoreModel.FK_Tbl_Cart_Tbl_Members" FromRole="Tbl_Members" ToRole="Tbl_Cart" />
-          <NavigationProperty Name="Tbl_MemberRole" Relationship="DrinksStoreModel.FK_Tbl_MemberRole_Tbl_Members" FromRole="Tbl_Members" ToRole="Tbl_MemberRole" />
-          <Property Name="ResetPasswordCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ResetPasswordCode" MaxLength="100" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="RoleId" Type="Int32" />
+          <NavigationProperty Name="Tbl_Role" Relationship="DrinksStoreModel.FK_Tbl_Members_Tbl_Role1" FromRole="Tbl_Members" ToRole="Tbl_Role" />
         </EntityType>
         <EntityType Name="Tbl_Product">
           <Key>
@@ -504,14 +466,6 @@
           <NavigationProperty Name="Tbl_Cart" Relationship="DrinksStoreModel.FK__Tbl_Cart__Produc__38996AB5" FromRole="Tbl_Product" ToRole="Tbl_Cart" />
           <NavigationProperty Name="Tbl_Category" Relationship="DrinksStoreModel.FK__Tbl_Produ__Categ__398D8EEE" FromRole="Tbl_Product" ToRole="Tbl_Category" />
         </EntityType>
-        <EntityType Name="Tbl_Roles">
-          <Key>
-            <PropertyRef Name="RoleId" />
-          </Key>
-          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RoleName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Tbl_MemberRole" Relationship="DrinksStoreModel.FK_Tbl_MemberRole_Tbl_Roles" FromRole="Tbl_Roles" ToRole="Tbl_MemberRole" />
-        </EntityType>
         <EntityType Name="Tbl_SlideImage">
           <Key>
             <PropertyRef Name="SlideId" />
@@ -521,8 +475,8 @@
           <Property Name="SlideImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_Shipping_Tbl_Members">
-          <End Type="DrinksStoreModel.Tbl_Members" Role="Tbl_Members" Multiplicity="0..1" />
-          <End Type="DrinksStoreModel.Shipping" Role="Shipping" Multiplicity="*" />
+          <End Type="DrinksStoreModel.Tbl_Members" Multiplicity="0..1" Role="Tbl_Members" />
+          <End Type="DrinksStoreModel.Shipping" Multiplicity="*" Role="Shipping" />
           <ReferentialConstraint>
             <Principal Role="Tbl_Members">
               <PropertyRef Name="MemberId" />
@@ -581,8 +535,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Tbl_Cart_Tbl_Members">
-          <End Type="DrinksStoreModel.Tbl_Members" Role="Tbl_Members" Multiplicity="0..1" />
-          <End Type="DrinksStoreModel.Tbl_Cart" Role="Tbl_Cart" Multiplicity="*" />
+          <End Type="DrinksStoreModel.Tbl_Members" Multiplicity="0..1" Role="Tbl_Members" />
+          <End Type="DrinksStoreModel.Tbl_Cart" Multiplicity="*" Role="Tbl_Cart" />
           <ReferentialConstraint>
             <Principal Role="Tbl_Members">
               <PropertyRef Name="MemberId" />
@@ -601,30 +555,6 @@
             </Principal>
             <Dependent Role="Tbl_Product">
               <PropertyRef Name="CategoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Tbl_MemberRole_Tbl_Members">
-          <End Type="DrinksStoreModel.Tbl_Members" Role="Tbl_Members" Multiplicity="0..1" />
-          <End Type="DrinksStoreModel.Tbl_MemberRole" Role="Tbl_MemberRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tbl_Members">
-              <PropertyRef Name="MemberId" />
-            </Principal>
-            <Dependent Role="Tbl_MemberRole">
-              <PropertyRef Name="MemberId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Tbl_MemberRole_Tbl_Roles">
-          <End Type="DrinksStoreModel.Tbl_Roles" Role="Tbl_Roles" Multiplicity="0..1" />
-          <End Type="DrinksStoreModel.Tbl_MemberRole" Role="Tbl_MemberRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tbl_Roles">
-              <PropertyRef Name="RoleId" />
-            </Principal>
-            <Dependent Role="Tbl_MemberRole">
-              <PropertyRef Name="RoleId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -657,6 +587,26 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
+        <EntityType Name="Tbl_Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="RoleName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Tbl_Members" Relationship="DrinksStoreModel.FK_Tbl_Members_Tbl_Role1" FromRole="Tbl_Role" ToRole="Tbl_Members" />
+        </EntityType>
+        <Association Name="FK_Tbl_Members_Tbl_Role1">
+          <End Type="DrinksStoreModel.Tbl_Role" Role="Tbl_Role" Multiplicity="0..1" />
+          <End Type="DrinksStoreModel.Tbl_Members" Role="Tbl_Members" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="Tbl_Members">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -724,18 +674,10 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Tbl_MemberRole">
-            <EntityTypeMapping TypeName="DrinksStoreModel.Tbl_MemberRole">
-              <MappingFragment StoreEntitySet="Tbl_MemberRole">
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
-                <ScalarProperty Name="MemberRoleID" ColumnName="MemberRoleID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Tbl_Members">
             <EntityTypeMapping TypeName="DrinksStoreModel.Tbl_Members">
               <MappingFragment StoreEntitySet="Tbl_Members">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="ResetPasswordCode" ColumnName="ResetPasswordCode" />
                 <ScalarProperty Name="isValid" ColumnName="isValid" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
@@ -763,14 +705,6 @@
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Tbl_Roles">
-            <EntityTypeMapping TypeName="DrinksStoreModel.Tbl_Roles">
-              <MappingFragment StoreEntitySet="Tbl_Roles">
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -829,6 +763,14 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="DrinksStoreModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="DrinksStoreModel.Store.sp_upgraddiagrams" />
+          <EntitySetMapping Name="Tbl_Role">
+            <EntityTypeMapping TypeName="DrinksStoreModel.Tbl_Role">
+              <MappingFragment StoreEntitySet="Tbl_Role">
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

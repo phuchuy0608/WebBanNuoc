@@ -11,8 +11,7 @@ namespace WebBanNuoc.DAL
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Tbl_Members
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,42 +19,23 @@ namespace WebBanNuoc.DAL
         {
             this.Shippings = new HashSet<Shipping>();
             this.Tbl_Cart = new HashSet<Tbl_Cart>();
-            this.Tbl_MemberRole = new HashSet<Tbl_MemberRole>();
         }
     
         public int MemberId { get; set; }
-
-        [Required(AllowEmptyStrings = false, ErrorMessage = "First name required")]
         public string Name { get; set; }
-
-        [Required(AllowEmptyStrings = false, ErrorMessage = "User name is required")]
-        
         public string UserName { get; set; }
-
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Password is required")]
-        [DataType(DataType.Password)]
-        [MinLength(6, ErrorMessage = "Minimum 6 characters required")]
         public string Password { get; set; }
-
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Email is required")]
-        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
-
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Phone number is required")]
-        
-        [DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; }
-
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Address is required")]
         public string Address { get; set; }
         public Nullable<bool> isValid { get; set; }
         public string ResetPasswordCode { get; set; }
+        public Nullable<int> RoleId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Shipping> Shippings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tbl_Cart> Tbl_Cart { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tbl_MemberRole> Tbl_MemberRole { get; set; }
+        public virtual Tbl_Role Tbl_Role { get; set; }
     }
 }

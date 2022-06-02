@@ -43,9 +43,12 @@ namespace WebBanNuoc.Controllers
 
         public JsonResult SaveData(Tbl_Members model)
         {
+            model.RoleId = 2;
+            model.ResetPasswordCode = null;
             try
             {
                 model.isValid = false;
+                
                 db.Tbl_Members.Add(model);
                 db.SaveChanges();
                 BuildEmailTemplate(model.MemberId);
@@ -75,10 +78,10 @@ namespace WebBanNuoc.Controllers
             return View();
         }
 
-        [HttpGet]
+        
         public JsonResult RegisterConfirm(int regId)
         {
-            Tbl_Members Data = db.Tbl_Members.Where(x => x.MemberId == regId).FirstOrDefault();
+            Tbl_Members Data = db.Tbl_Members.Where(x => x.MemberId == regId).FirstOrDefault();   
             Data.isValid = true;
             db.SaveChanges();
             var msg = "Your Email Is Verified!";
@@ -150,6 +153,7 @@ namespace WebBanNuoc.Controllers
                 if (DataItem != null && DataItem.isValid == true)
                 {
                     Session["MemberId"] = DataItem.MemberId.ToString();
+                Session["Role"] = Convert.ToInt32(DataItem.RoleId);                
                     Session["UserName"] = DataItem.UserName.ToString();
                 Session["Name"] = DataItem.Name.ToString();
                 Session["Account"] = DataItem;
@@ -162,13 +166,21 @@ namespace WebBanNuoc.Controllers
 
         public ActionResult AfterLogin()
         {
-            if (Session["MemberId"] != null)
+            Tbl_Members ac = (Tbl_Members)Session["Account"];
+            if (Session["MemberId"] != null && ac.RoleId == 2)
             {
+              
                 return RedirectToAction("Index","Home");
+            }
+            else if (Session["MemberId"] != null && ac.RoleId == 1)
+            {
+                return RedirectToAction("Dashboard", "Admin");
+                
             }
             else
             {
                 return RedirectToAction("TestLogin");
+
             }
         }
 

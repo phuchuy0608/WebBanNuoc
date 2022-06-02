@@ -130,7 +130,7 @@ namespace WebBanNuoc.Controllers
                 cart.RemoveAll(n => n.Product.ProductId == productId);
                  return RedirectToAction("Index");
             }
-            cart = null;
+            
             return RedirectToAction("Index");
 
         }
@@ -197,8 +197,13 @@ namespace WebBanNuoc.Controllers
             ctx.SaveChanges();
             Session["cart"] = null;
             
-            return RedirectToAction("XacnhanDonHang", "GioHang");
+            return RedirectToAction("ConfirmOrder", "Home");
             
+        }
+
+        public ActionResult ConfirmOrder()
+        {
+            return View();
         }
     }
 }

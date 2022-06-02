@@ -223,16 +223,13 @@
     <Compile Include="DAL\Tbl_Category.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL\Tbl_MemberRole.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="DAL\Tbl_Members.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Tbl_Product.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL\Tbl_Roles.cs">
+    <Compile Include="DAL\Tbl_Role.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Tbl_SlideImage.cs">
@@ -1841,6 +1838,7 @@
     <Content Include="Views\Home\Payment.cshtml" />
     <Content Include="Views\AccountTest\ForgotPassword.cshtml" />
     <Content Include="Views\AccountTest\ResetPassword.cshtml" />
+    <Content Include="Views\Home\ConfirmOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
